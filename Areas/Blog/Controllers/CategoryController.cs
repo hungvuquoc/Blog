@@ -59,6 +59,7 @@ namespace AppMvc.Net.Areas.Blog.Controllers
 
         private void CreateSelectItems(List<Category> source, List<Category> des, int level)
         {
+            
             string prefix = string.Concat(Enumerable.Repeat("----", level));
             foreach (var category in source)
             {
@@ -180,44 +181,44 @@ namespace AppMvc.Net.Areas.Blog.Controllers
 
             bool canUpdate = true;
 
-            if (category.ParentCategoryId  == category.Id)
-            {
-                ModelState.AddModelError(string.Empty, "Phải chọn danh mục cha khác");
-                canUpdate = false;
-            }
+            // if (category.ParentCategoryId  == category.Id)
+            // {
+            //     ModelState.AddModelError(string.Empty, "Phải chọn danh mục cha khác");
+            //     canUpdate = false;
+            // }
 
-            // Kiem tra thiet lap muc cha phu hop
-            if (canUpdate && category.ParentCategoryId != null)
-            { 
-            var childCates =  
-                        (from c in _context.Categories select c)
-                        .Include(c => c.CategoryChildren)
-                        .ToList()
-                        .Where(c => c.ParentCategoryId == category.Id);
+            // // Kiem tra thiet lap muc cha phu hop
+            // if (canUpdate && category.ParentCategoryId != null)
+            // { 
+            // var childCates =  
+            //             (from c in _context.Categories select c)
+            //             .Include(c => c.CategoryChildren)
+            //             .ToList()
+            //             .Where(c => c.ParentCategoryId == category.Id);
 
 
-                // Func check Id 
-                Func<List<Category>, bool> checkCateIds = null;
-                checkCateIds = (cates) => 
-                    {
-                        foreach (var cate in cates)
-                        { 
-                             Console.WriteLine(cate.Title); 
-                            if (cate.Id == category.ParentCategoryId)
-                            {
-                                canUpdate = false;
-                                ModelState.AddModelError(string.Empty, "Phải chọn danh mục cha khácXX");
-                                return true;
-                            }
-                            if (cate.CategoryChildren!=null)
-                                return checkCateIds(cate.CategoryChildren.ToList());
+            //     // Func check Id 
+            //     Func<List<Category>, bool> checkCateIds = null;
+            //     checkCateIds = (cates) => 
+            //         {
+            //             foreach (var cate in cates)
+            //             { 
+            //                  Console.WriteLine(cate.Title); 
+            //                 if (cate.Id == category.ParentCategoryId)
+            //                 {
+            //                     canUpdate = false;
+            //                     ModelState.AddModelError(string.Empty, "Phải chọn danh mục cha khácXX");
+            //                     return true;
+            //                 }
+            //                 if (cate.CategoryChildren!=null)
+            //                     return checkCateIds(cate.CategoryChildren.ToList());
                           
-                        }
-                        return false;
-                    };
-                // End Func 
-                checkCateIds(childCates.ToList()); 
-            }
+            //             }
+            //             return false;
+            //         };
+            //     // End Func 
+            //     checkCateIds(childCates.ToList()); 
+            // }
 
 
 

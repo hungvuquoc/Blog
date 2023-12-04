@@ -39,7 +39,7 @@ namespace AppMvc.Areas.Blog.Controllers
                         .OrderByDescending(p => p.DateUpdated);
 
             int totalPosts = await posts.CountAsync();  
-            if (pagesize <=0) pagesize = 10;
+            if (pagesize <=0) pagesize = 100;
             int countPages = (int)Math.Ceiling((double)totalPosts / pagesize);
  
             if (currentPage > countPages) currentPage = countPages;     
@@ -142,7 +142,7 @@ namespace AppMvc.Areas.Blog.Controllers
 
 
                 await _context.SaveChangesAsync();
-                StatusMessage = "Vừa tạo bài viết mới";
+                // StatusMessage = "Vừa tạo bài viết mới";
                 return RedirectToAction(nameof(Index));
             }
 
